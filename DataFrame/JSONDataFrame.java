@@ -17,14 +17,15 @@ import java.util.Set;
 public class JSONDataFrame extends DataFrame {
 
     /*Reads a json file and converts it into a DataFrame*/
-    public JSONDataFrame(String filename) throws IOException, ParseException, IllegalAccessException, NoSuchFieldException {
+    @SuppressWarnings("unchecked")
+    public JSONDataFrame(String filename) throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();
         FileReader reader = new FileReader(filename);
         Object fileContent = jsonParser.parse(reader);     // First we parse the json file to an object -> WARNING; DOES NOT RESPECT ORDER AS IT IS A DICTIONARY
         JSONArray jsonArrayContent = (JSONArray) fileContent;   // convert it to an array
         Object objLabels = jsonArrayContent.get(0);             //capture the first block
         Set<String> labels = ((JSONObject)objLabels).keySet();  // get all the keys (labels)
-        String[] labelsArray = labels.toArray(new String[labels.size()]);  // convert them to an array of strings
+        String[] labelsArray = labels.toArray(new String[0]);  // convert them to an array of strings
         List<String> col;       // the list for each dataframe entry
         for (String s : labelsArray) {  // we will iterate for every dataframe entry (label)
             col = new ArrayList<>();

@@ -21,7 +21,7 @@ public class CSVDataFrame extends DataFrame {
         int j;                                  // inner counter for rows
         for(int i=0;i<r.get(0).length;i++) {    // we iterate till we end up with all the labels
             col = new ArrayList<>();
-            j = 1;                              // for each label we do all rows to complete the full column
+            j = 1;                              // for each label we do all rows to complete the full column (starting after the row of labels)
             while(j<r.size()) {                 // we iterate till we end up with all the rows
                 col.add(r.get(j)[i]);           // we add the actual value (i) of the row (j) to the list
                 j++;

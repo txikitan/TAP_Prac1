@@ -1,14 +1,16 @@
 import com.opencsv.exceptions.CsvException;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            DataFrame df = new JSONDataFrame("cities.json");
-            DataFrame df2 = new CSVDataFrame("cities.csv");
-
+            AbstractDataFrameFactory CSVFactory = new CSVDataFrameFactory();
+            AbstractDataFrameFactory JSONFactory = new JSONDataFrameFactory();
+            AbstractDataFrameFactory TXTFactory = new TXTDataFrameFactory();
+            DataFrame CSVdf = CSVFactory.createDataFrame("cities.csv");
+            DataFrame JSONdf = JSONFactory.createDataFrame("cities.json");
+            DataFrame TXTdf = TXTFactory.createDataFrame("cities.txt");
 
         } catch (IOException | ParseException | NoSuchFieldException | IllegalAccessException | CsvException e) {
             e.printStackTrace();
