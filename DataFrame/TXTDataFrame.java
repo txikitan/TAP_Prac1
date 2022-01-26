@@ -19,6 +19,7 @@ public class TXTDataFrame extends DataFrame {
         Path path = Paths.get(filename);
         List<String> fullFile = Files.readAllLines(path); // read full file splitted by lines
         String[] labels = fullFile.get(0).replaceAll("\"","").split(","); // capture the labels
+        super.columns = labels.length;
         List<String> col;   // the list that will be the value for each label (key) of the dataframe
         int j;
         for(int i=0;i<labels.length;i++) { // start iterating while we have labels to import to the df
@@ -29,6 +30,7 @@ public class TXTDataFrame extends DataFrame {
                 j++;
             }
             super.df.put(labels[i],col); // we put the label from the array and the values list that we have just obtained navigating through the column
+            super.rows = col.size();
         }
     }
 }

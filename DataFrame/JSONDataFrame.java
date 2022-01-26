@@ -26,6 +26,7 @@ public class JSONDataFrame extends DataFrame {
         Object objLabels = jsonArrayContent.get(0);             //capture the first block
         Set<String> labels = ((JSONObject)objLabels).keySet();  // get all the keys (labels)
         String[] labelsArray = labels.toArray(new String[0]);  // convert them to an array of strings
+        super.columns = labelsArray.length;
         List<String> col;       // the list for each dataframe entry
         for (String s : labelsArray) {  // we will iterate for every dataframe entry (label)
             col = new ArrayList<>();
@@ -34,6 +35,7 @@ public class JSONDataFrame extends DataFrame {
                 col.add(entry.get(s).toString());       // we add the desired value assigned to the label (key) to our List
             }
             super.df.put(s, col);   // we add the list and the label from the previous array of strings to the dataframe structure
+            super.rows = col.size();
         }
     }
 }
