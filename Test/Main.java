@@ -22,7 +22,7 @@ public class Main {
               if(p.matches("[0-9]+")) return Integer.parseInt(p)>45;
               return false;
             };
-            LinkedHashMap<String, List<String>>queryedMap= CSVdf.query(biggerThan);
+            LinkedHashMap<String, List<String>>queryedMap= CSVdf.query("LatD",biggerThan);
             System.out.println("Fin main");
         } catch (IOException | ParseException | NoSuchFieldException | IllegalAccessException | CsvException e) {
             e.printStackTrace();

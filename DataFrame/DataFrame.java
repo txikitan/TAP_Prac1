@@ -65,10 +65,14 @@ public abstract class DataFrame implements Iterable<List<String>> {
     }
 
     /*Queries all values of the desired col that comply the predicate*/
-    public LinkedHashMap<String, List<String>> query( Predicate<String> predicate) {
+    public LinkedHashMap<String, List<String>> query( String label, Predicate<String> predicate) {
         return df.entrySet().stream().collect  // this first stream is for the dataframe itself (each entry)
-                (Collectors.toMap(Map.Entry::getKey, key->key.getValue().stream().filter(predicate).//  filter each column(value) in a second inner stream and map it (toMap)
-                                collect(Collectors.toList()),     //  collect it to form each column filtered
+                (Collectors.toMap(Map.Entry::getKey, key->{
+                    if(key.getKey().equals(label))                         // if we are on the correct column
+                        return key.getValue().stream().filter(predicate).//  filter each column(value) in a second inner stream and map it (toMap)
+                                    collect(Collectors.toList());       //  collect it to form each column filtered
+                            return key.getValue();
+                        },
                         (u,v)-> {throw new IllegalStateException();}    // if repeated key, throw exception
                         ,LinkedHashMap<String,List<String>>::new)); // we want it as a linkedHashMap to preserve the order
     }
