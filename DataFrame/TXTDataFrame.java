@@ -26,7 +26,9 @@ public class TXTDataFrame extends DataFrame {
             col = new ArrayList<>();
             j=1;
             while(j<fullFile.size()){ // for each label we navigate over every row of the txt (despite the first)
-                col.add(fullFile.get(j).replaceAll("\"","").split(",")[i]); // we split the corresponding line and add the label column to the value list
+                String value = fullFile.get(j).replaceAll("\"","").split(",")[i]; //replace any space if the field is numeric
+                if(!(value.matches("^[ A-Za-z]+$"))) value = value.replaceAll("\\s", "");// we split the corresponding line and add the label column to the value list
+                col.add(value);
                 j++;
             }
             super.df.put(labels[i],col); // we put the label from the array and the values list that we have just obtained navigating through the column

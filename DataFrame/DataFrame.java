@@ -4,7 +4,10 @@
 
     Gabriel Garcia
 /----------------------------------------------------*/
+
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public abstract class DataFrame implements Iterable<List<String>> {
 
@@ -16,17 +19,18 @@ public abstract class DataFrame implements Iterable<List<String>> {
 
     /*Making the dataframe iterable through columns*/
     public Iterator<List<String>> iterator() {
-        return new Iterator<>(){
+        return new Iterator<>() {
             Iterator<String> it = df.keySet().iterator();
-          public boolean hasNext(){
-              return it.hasNext();
-          }
-          /*For the method next we return the corresponding column */
-          public List<String> next(){
-              String key = it.next();
-              it.next();
-              return df.get(key);
-          }
+
+            public boolean hasNext() {
+                return it.hasNext();
+            }
+
+            /*For the method next we return the corresponding column */
+            public List<String> next() {
+                String key = it.next();
+                return df.get(key);
+            }
         };
     }
 
@@ -36,15 +40,11 @@ public abstract class DataFrame implements Iterable<List<String>> {
     }
 
     /*Returns a specific item by number indexes*/
-    public String iat(int row,int col) {
-        int i=0;
-        String value = "NF";
-        for(List<String> columna : this){
-            if(i==col-1) {
-                value = columna.get(row);
-            }
-        }
-        return value;
+    public String iat(int row, int col) {
+        Set<String> keys = this.df.keySet();
+        String[] keyList = keys.toArray(new String[0]);
+        String key = keyList[col];
+        return this.df.get(key).get(row);
     }
 
     /*Returns number of columns*/
@@ -53,14 +53,23 @@ public abstract class DataFrame implements Iterable<List<String>> {
     }
 
     /*Returns number of rows*/
-    public int rows() {
+    public int size() {
         return this.rows;
     }
 
-    /*public List<String> sort(String col, Comparator comparator){
+    /*Sorts a list based in a comparator*/
+    public List<String> sort(String col, Comparator<String> comparator) {
         List<String> sortedList = this.df.get(col);
+        sortedList.sort(comparator);
+        return sortedList;
+    }
 
-    }*/
-
-
+    /*Queries all values of the desired col that comply the predicate*/
+    public LinkedHashMap<String, List<String>> query( Predicate<String> predicate) {
+        return df.entrySet().stream().collect  // this first stream is for the dataframe itself (each entry)
+                (Collectors.toMap(Map.Entry::getKey, key->key.getValue().stream().filter(predicate).//  filter each column(value) in a second inner stream and map it (toMap)
+                                collect(Collectors.toList()),     //  collect it to form each column filtered
+                        (u,v)-> {throw new IllegalStateException();}    // if repeated key, throw exception
+                        ,LinkedHashMap<String,List<String>>::new)); // we want it as a linkedHashMap to preserve the order
+    }
 }

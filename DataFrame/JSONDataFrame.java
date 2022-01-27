@@ -32,7 +32,9 @@ public class JSONDataFrame extends DataFrame {
             col = new ArrayList<>();
             for (Object values : jsonArrayContent) {    // for each entry, we navigate over all the json blocks
                 JSONObject entry = (JSONObject) values;
-                col.add(entry.get(s).toString());       // we add the desired value assigned to the label (key) to our List
+                String value = entry.get(s).toString();
+                if(!(value.matches("^[ A-Za-z]+$"))) value = value.replaceAll("\\s", ""); //replace any space if the field is numeric
+                col.add(value);       // we add the desired value assigned to the label (key) to our List
             }
             super.df.put(s, col);   // we add the list and the label from the previous array of strings to the dataframe structure
             super.rows = col.size();

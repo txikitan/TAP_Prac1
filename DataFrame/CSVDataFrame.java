@@ -23,8 +23,10 @@ public class CSVDataFrame extends DataFrame {
         for(int i=0;i<r.get(0).length;i++) {    // we iterate till we end up with all the labels
             col = new ArrayList<>();
             j = 1;                              // for each label we do all rows to complete the full column (starting after the row of labels)
-            while(j<r.size()) {                 // we iterate till we end up with all the rows
-                col.add(r.get(j)[i]);           // we add the actual value (i) of the row (j) to the list
+            while(j<r.size()) { // we iterate till we end up with all the rows
+                String value = r.get(j)[i];
+                if(!(value.matches("^[ A-Za-z]+$"))) value = value.replaceAll("\\s", ""); //  replace any space if the field is numeric
+                col.add(value);           // we add the actual value (i) of the row (j) to the list
                 j++;
             }
             // String label = r.get(0)[i].replaceAll("\"","");
