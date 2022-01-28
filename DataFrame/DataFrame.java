@@ -35,8 +35,8 @@ public abstract class DataFrame implements Iterable<List<String>> {
     }
 
     /*Returns a specific item by text key*/
-    public String at(int row, String col) {
-        return this.df.get(col).get(row);
+    public String at(int row, String label) {
+        return this.df.get(label).get(row);
     }
 
     /*Returns a specific item by number indexes*/
@@ -58,8 +58,8 @@ public abstract class DataFrame implements Iterable<List<String>> {
     }
 
     /*Sorts a list based in a comparator*/
-    public List<String> sort(String col, Comparator<String> comparator) {
-        List<String> sortedList = this.df.get(col);
+    public List<String> sort(String label, Comparator<String> comparator) {
+        List<String> sortedList = this.df.get(label);
         sortedList.sort(comparator);
         return sortedList;
     }
