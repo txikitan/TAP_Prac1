@@ -2,10 +2,7 @@ import com.opencsv.exceptions.CsvException;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class Main {
@@ -18,11 +15,26 @@ public class Main {
             DataFrame JSONdf = JSONFactory.createDataFrame("cities.json");
             DataFrame TXTdf = TXTFactory.createDataFrame("cities.txt");
 
+            Directory dir = new Directory("Directorio");
+            dir.addChild(CSVdf);
+            dir.addChild(TXTdf);
+            String at = dir.at(0,"LatD");
+            String iat = dir.iat(0,0);
+            // List<String> sort = CSVdf.sort("LatD",new testComparator());
+
+            //String prueba = CSVdf.at(0, "XD");
             Predicate<String> biggerThan = p ->{
               if(p.matches("[0-9]+")) return Integer.parseInt(p)>45;
               return false;
             };
-            LinkedHashMap<String, List<String>>queryedMap= CSVdf.query("LatD",biggerThan);
+            //LinkedHashMap<String, List<String>>queryedMap= CSVdf.query("LatD",biggerThan);
+            //LinkedHashMap<String,List<String>> queryedDir = dir.query("LatD",biggerThan);
+            List<String> next= new ArrayList<>();
+            for(List<String> it : dir) {
+                next = it;
+                System.out.println("Next");
+            }
+
             System.out.println("Fin main");
         } catch (IOException | ParseException | NoSuchFieldException | IllegalAccessException | CsvException e) {
             e.printStackTrace();

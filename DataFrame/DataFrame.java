@@ -36,15 +36,21 @@ public abstract class DataFrame implements Iterable<List<String>> {
 
     /*Returns a specific item by text key*/
     public String at(int row, String label) {
-        return this.df.get(label).get(row);
+        if(this.df.get(label)!=null && row<this.rows && row>=0) {
+            return this.df.get(label).get(row);
+        }
+        else return null;
     }
 
     /*Returns a specific item by number indexes*/
     public String iat(int row, int col) {
-        Set<String> keys = this.df.keySet();
-        String[] keyList = keys.toArray(new String[0]);
-        String key = keyList[col];
-        return this.df.get(key).get(row);
+        if(col<this.columns && col>=0 && row<this.rows && row>=0) {
+            Set<String> keys = this.df.keySet();
+            String[] keyList = keys.toArray(new String[0]);
+            String key = keyList[col];
+            return this.df.get(key).get(row);
+        }
+        return null;
     }
 
     /*Returns number of columns*/
@@ -59,9 +65,12 @@ public abstract class DataFrame implements Iterable<List<String>> {
 
     /*Sorts a list based in a comparator*/
     public List<String> sort(String label, Comparator<String> comparator) {
-        List<String> sortedList = this.df.get(label);
-        sortedList.sort(comparator);
-        return sortedList;
+        if(this.df.get(label)!=null) {
+            List<String> sortedList = this.df.get(label);
+            sortedList.sort(comparator);
+            return sortedList;
+        }
+        else return null;
     }
 
     /*Queries all values of the desired col that comply the predicate*/
