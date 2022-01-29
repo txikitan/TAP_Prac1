@@ -14,10 +14,12 @@ public class Main {
             DataFrame CSVdf = CSVFactory.createDataFrame("cities.csv");
             DataFrame JSONdf = JSONFactory.createDataFrame("cities.json");
             DataFrame TXTdf = TXTFactory.createDataFrame("cities.txt");
-
+            DataFrame CSVdf2 = CSVFactory.createDataFrame("cities.csv");
+            Directory subdir = new Directory("Subdirectorio");
             Directory dir = new Directory("Directorio");
+            subdir.addChild(CSVdf2);
             dir.addChild(CSVdf);
-            dir.addChild(TXTdf);
+            dir.addChild(subdir);
             String at = dir.at(0,"LatD");
             String iat = dir.iat(0,0);
             // List<String> sort = CSVdf.sort("LatD",new testComparator());

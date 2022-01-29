@@ -44,7 +44,8 @@ public class Directory extends DataFrame {
 
     /*The Directory has to perform the same operations over its inner dataFrames*/
     @Override
-    public Iterator<List<String>> iterator() { // to iterate over each dataframe in the directory
+    /*Iterator that will iterate over each inner dataframe of the directory through columns following the same idea of the simple Df iterator*/
+    public Iterator<List<String>> iterator() {
         return new Iterator<>() {
             int i = 0;
             Iterator<List<String>> childIterator = children.get(i).iterator();  // will iterate over every dataframe of the directory
@@ -60,7 +61,7 @@ public class Directory extends DataFrame {
                     childIterator = children.get(i).iterator(); // we jump to the next dataframe of the directory
                     return childIterator.next();
                 }
-                return childIterator.next(); // otherwise we will still be iterating over the inner dataframe of the directory
+                return childIterator.next(); // otherwise, we will still be iterating over the inner dataframe of the directory
             }
         };
     }
@@ -114,7 +115,7 @@ public class Directory extends DataFrame {
             if(child.sort(label,comparator)!=null) {
                 sortedDirList = Stream.of(sortedDirList, child.sort(label, comparator)) // we start merging the sorted list and the full final list opening a stream
                         .flatMap(Collection::stream)    // we use a flatmap because we are merging two lists
-                        .collect(Collectors.toList()); // colect the values to the full final list
+                        .collect(Collectors.toList()); // collect the values to the full final list
             }
             i++;
         }
@@ -136,6 +137,11 @@ public class Directory extends DataFrame {
         return queryDirMap;
     }
 
-
+    /*Visitor pattern accept method that executes accept over each dataframe of the directory*/
+    public void accept(DataFrameVisitor v, String label){
+        for (DataFrame child : children ) {
+            child.accept(v,label);
+        }
+    }
 
 }

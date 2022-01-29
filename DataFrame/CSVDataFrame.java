@@ -30,7 +30,7 @@ public class CSVDataFrame extends DataFrame {
                 j++;
             }
             // String label = r.get(0)[i].replaceAll("\"","");
-            super.df.put(r.get(0)[i],col);      // finally add the column to the dataframe with following the pattern <label>,column>
+            super.df.put(r.get(0)[i],col);      // finally, add the column to the dataframe with following the pattern <label>,column>
             super.rows = col.size();
         }
     }

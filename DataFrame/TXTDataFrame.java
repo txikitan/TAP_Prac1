@@ -17,7 +17,7 @@ public class TXTDataFrame extends DataFrame {
     /*Reads a txt file and converts it into a DataFrame*/
     public TXTDataFrame(String filename) throws IOException {
         Path path = Paths.get(filename);
-        List<String> fullFile = Files.readAllLines(path); // read full file splitted by lines
+        List<String> fullFile = Files.readAllLines(path); // read full file split by lines
         String[] labels = fullFile.get(0).replaceAll("\"","").split(","); // capture the labels
         super.columns = labels.length;
         List<String> col;   // the list that will be the value for each label (key) of the dataframe

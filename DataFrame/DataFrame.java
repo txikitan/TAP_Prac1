@@ -85,4 +85,9 @@ public abstract class DataFrame implements Iterable<List<String>> {
                         (u,v)-> {throw new IllegalStateException();}    // if repeated key, throw exception
                         ,LinkedHashMap<String,List<String>>::new)); // we want it as a linkedHashMap to preserve the order
     }
+
+    /*Visitor pattern accept method */
+    public void accept(DataFrameVisitor v, String label) {
+        v.visit(this, label);
+    }
 }
