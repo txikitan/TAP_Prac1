@@ -1,3 +1,9 @@
+/*---------------------------------------------------
+- TAP JavaDataFrame: Visitor interface that implements
+    the visitor pattern to do perform the average of the
+    values under a determinate label in a DataFrame
+    Gabriel Garcia
+/----------------------------------------------------*/
 import java.util.List;
 
 public class AverageVisitor implements DataFrameVisitor{
@@ -7,10 +13,10 @@ public class AverageVisitor implements DataFrameVisitor{
         List<String> listToAverage = dataFrame.df.get(label);
         int sum = 0;
         for(String value : listToAverage) {
-            if(value.matches("^[ A-Za-z]+$")) sum = sum + Integer.parseInt(value);
+            if(!(value.matches("^[ A-Za-z]+$"))) sum = sum + Integer.parseInt(value);
         }
         dfCounter++;
-        long average = (long) sum / (long) listToAverage.size();
+        long average = (long) sum / (long) listToAverage.size(); // Just applying the classic average formula
         System.out.println("Average value (label="+label+") of numeric values in this Df"+dfCounter+" = " + average + ";");
     }
 }

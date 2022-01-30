@@ -20,22 +20,24 @@ public class Main {
             subdir.addChild(CSVdf2);
             dir.addChild(CSVdf);
             dir.addChild(subdir);
-            String at = dir.at(0,"LatD");
-            String iat = dir.iat(0,0);
-            // List<String> sort = CSVdf.sort("LatD",new testComparator());
 
-            //String prueba = CSVdf.at(0, "XD");
+            DataFrameVisitor visitor = new SumVisitor();
+            dir.accept(visitor,"LatD");
+
+
+
+
             Predicate<String> biggerThan = p ->{
               if(p.matches("[0-9]+")) return Integer.parseInt(p)>45;
               return false;
             };
             //LinkedHashMap<String, List<String>>queryedMap= CSVdf.query("LatD",biggerThan);
             //LinkedHashMap<String,List<String>> queryedDir = dir.query("LatD",biggerThan);
-            List<String> next= new ArrayList<>();
+            /*List<String> next= new ArrayList<>();
             for(List<String> it : dir) {
                 next = it;
                 System.out.println("Next");
-            }
+            }*/
 
             System.out.println("Fin main");
         } catch (IOException | ParseException | NoSuchFieldException | IllegalAccessException | CsvException e) {
