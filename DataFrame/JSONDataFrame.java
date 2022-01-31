@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class JSONDataFrame extends DataFrame {
+public class JSONDataFrame extends DataFrame implements IDataFrame{
 
     /*Reads a json file and converts it into a DataFrame*/
     @SuppressWarnings("unchecked")
@@ -40,4 +40,7 @@ public class JSONDataFrame extends DataFrame {
             super.rows = col.size();
         }
     }
+
+
+
 }

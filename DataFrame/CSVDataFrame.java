@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVDataFrame extends DataFrame {
+public class CSVDataFrame extends DataFrame implements IDataFrame{
 
     /*Reads a csv file and converts it into a DataFrame*/
     public CSVDataFrame(String file) throws IOException, CsvException {
@@ -34,5 +34,6 @@ public class CSVDataFrame extends DataFrame {
             super.rows = col.size();
         }
     }
+
 }
 

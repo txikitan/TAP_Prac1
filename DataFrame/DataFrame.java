@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public abstract class DataFrame implements Iterable<List<String>> {
+public abstract class DataFrame implements Iterable<List<String>>, IDataFrame {
 
 
     /*Counters for the number of columns and rows of the dataframe*/
@@ -86,7 +86,6 @@ public abstract class DataFrame implements Iterable<List<String>> {
                         ,LinkedHashMap<String,List<String>>::new)); // we want it as a linkedHashMap to preserve the order
     }
 
-    /*Visitor pattern accept method */
     public void accept(DataFrameVisitor v, String label) {
         v.visit(this, label);
     }

@@ -14,15 +14,16 @@ public class Main {
             DataFrame CSVdf = CSVFactory.createDataFrame("cities.csv");
             DataFrame JSONdf = JSONFactory.createDataFrame("cities.json");
             DataFrame TXTdf = TXTFactory.createDataFrame("cities.txt");
-            DataFrame CSVdf2 = CSVFactory.createDataFrame("cities.csv");
+            IDataFrame CSVdf2 = (IDataFrame) DynamicProxy.newInstance(new CSVDataFrame("cities.csv"));
+            CSVdf2.at(0,"LatD");
             Directory subdir = new Directory("Subdirectorio");
             Directory dir = new Directory("Directorio");
-            subdir.addChild(CSVdf2);
+            //subdir.addChild(CSVdf2);
             dir.addChild(CSVdf);
             dir.addChild(subdir);
+            //DataFrameVisitor visitor = new SumVisitor();
+            //dir.accept(visitor,"LatD");
 
-            DataFrameVisitor visitor = new SumVisitor();
-            dir.accept(visitor,"LatD");
 
 
 

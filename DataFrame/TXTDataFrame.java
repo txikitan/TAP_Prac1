@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TXTDataFrame extends DataFrame {
+public class TXTDataFrame extends DataFrame implements IDataFrame {
 
     /*Reads a txt file and converts it into a DataFrame*/
     public TXTDataFrame(String filename) throws IOException {
@@ -35,4 +35,5 @@ public class TXTDataFrame extends DataFrame {
             super.rows = col.size();
         }
     }
+
 }
