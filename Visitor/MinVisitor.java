@@ -6,7 +6,7 @@
 /----------------------------------------------------*/
 import java.util.List;
 
-public class MinVisitor {
+public class MinVisitor implements DataFrameVisitor{
     private int dfCounter = 0;
 
     public void visit(DataFrame dataFrame, String label) {

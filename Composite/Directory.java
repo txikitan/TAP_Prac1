@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Directory extends DataFrame {
+public class Directory extends DataFrame implements IDataFrame {
     private String name;    // name of the dataframe
     private List<DataFrame> children;
 

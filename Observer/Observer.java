@@ -7,6 +7,5 @@
     Gabriel Garcia
 /----------------------------------------------------*/
 public abstract class Observer {
-    protected DynamicProxy subject;
-    public abstract void update();
+    public abstract void update(String methodName);
 }

@@ -10,15 +10,12 @@ import java.util.logging.Logger;
 /----------------------------------------------------*/
 public class LogObserver extends Observer{
 
-    public LogObserver(DynamicProxy subject) {
-        this.subject = subject;
-    }
     @Override
-    public void update() {
+    public void update(String methodName) {
         Logger logger
                 = Logger.getLogger(
                 DataFrame.class.getName());
-        logger.info("Operation executed");
+        logger.info("Operation "+ methodName + " executed");
 
     }
 }
