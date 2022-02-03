@@ -109,7 +109,7 @@ public class Main {
             IDataFrame df = (IDataFrame) DynamicProxy.newInstance(new CSVDataFrame("cities.csv"),observers);
             System.out.println("Testing operations At and Iat to be logged properly and intercepted too");
             System.out.println(df.at(7,"LonD"));
-            System.out.println(df.at(7,"NS") + "Should not be logged"); // This should not be logged
+            System.out.println(df.at(7,"NS") + " -> Should not be logged"); // This should not be logged
             System.out.println(df.iat(0,4));
             System.out.println("End of the test demonstration, bye!");
 

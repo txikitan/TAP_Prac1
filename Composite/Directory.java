@@ -45,7 +45,7 @@ public class Directory extends DataFrame implements IDataFrame {
     @Override
     /*Iterator that will iterate over each inner dataframe of the directory through columns following the same idea of the simple Df iterator*/
     public Iterator<List<String>> iterator() {
-        return new Iterator<>() {
+        return new Iterator<List<String>>() {
             int i = 0;
             Iterator<List<String>> childIterator = children.get(i).iterator();  // will iterate over every dataframe of the directory
             @Override
@@ -108,7 +108,6 @@ public class Directory extends DataFrame implements IDataFrame {
     /*Returns a merged list with all the sorted columns of all the dataframes in the directory*/
     public List<String> sort(String label, Comparator<String> comparator) {
         List<String> sortedDirList = new ArrayList<>(); // full final list
-        int i=1;
         for(DataFrame child : children) { // we will sort all the content of the directory
             if(child instanceof Directory) sortedDirList.add("Directory;");
             else sortedDirList.add("Df;");
@@ -117,7 +116,6 @@ public class Directory extends DataFrame implements IDataFrame {
                         .flatMap(Collection::stream)    // we use a flatmap because we are merging two lists
                         .collect(Collectors.toList()); // collect the values to the full final list
             }
-            i++;
         }
         return sortedDirList;
     }

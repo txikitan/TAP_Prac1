@@ -19,7 +19,7 @@ public abstract class DataFrame implements Iterable<List<String>>, IDataFrame {
 
     /*Making the dataframe iterable through columns*/
     public Iterator<List<String>> iterator() {
-        return new Iterator<>() {
+        return new Iterator<List<String>>() {
             Iterator<String> it = df.keySet().iterator();
 
             public boolean hasNext() {
