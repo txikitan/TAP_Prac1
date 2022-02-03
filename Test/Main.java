@@ -1,3 +1,8 @@
+/*---------------------------------------------------
+- TAP JavaDataFrame: Main class to show the features
+    Gabriel Garcia
+/----------------------------------------------------*/
+
 import com.opencsv.exceptions.CsvException;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
@@ -29,8 +34,10 @@ public class Main {
             System.out.println("Testing individual api methods over the generated dataframes");
             assert CSVdf != null;
             String resultAt = CSVdf.at(0,"LatD");
+            System.out.println(resultAt);
             assert TXTdf != null;
             String resultIat = TXTdf.iat(0,0);
+            System.out.println(resultIat);
             if(!resultAt.equals("41") || !resultIat.equals("41")) System.out.println("Error in methods at/iat");
             List<String> sortedList = CSVdf.sort("LatD",new testComparator());
             System.out.println("Printing sorted list of label LatD in ascending order...");
@@ -54,12 +61,11 @@ public class Main {
             Directory directory = new Directory("Main dir");
             Directory subdirectory = new Directory("SubDir");
             Directory subdirectory2 = new Directory("SubDir2");
-            subdirectory.addChild(TXTdf);
-            subdirectory2.addChild((JSONdf));
+            subdirectory.addChild(new TXTDataFrame("cities.txt"));
+            subdirectory2.addChild((new JSONDataFrame("cities.json")));
             subdirectory.addChild(subdirectory2);
-            directory.addChild(CSVdf);
+            directory.addChild(new CSVDataFrame("cities.csv"));
             directory.addChild(subdirectory);
-            directory.addChild(subdirectory2);
             System.out.println("Result of at method for all files (Should be 41)");
             System.out.println(directory.at(0,"LatD"));
             System.out.println("Result of at method iat for all files (Should be 41,41 and random because json does not respect an order");
@@ -81,6 +87,9 @@ public class Main {
                 System.out.println("Column: "+ j);
                 j++;
             }
+            directory.removeChild(subdirectory);
+            if(directory.size() == 128) System.out.println("Successfully removed a subdirectory");
+            else System.out.println("Error removing child!");
 
             System.out.println("Testing the visitor pattern in the composite: will show max, min, sum and average of column label LatD");
             DataFrameVisitor sumVisitor = new SumVisitor();
@@ -96,10 +105,12 @@ public class Main {
             System.out.println("This will use the interface IDataFrame that we defined to be able to do the casting");
             List<Observer> observers= new ArrayList<>();
             observers.add(new LogObserver());
-            IDataFrame df = (IDataFrame) DynamicProxy.newInstance(CSVdf,observers);
+            observers.add(new QueryObserver("LonD"));
+            IDataFrame df = (IDataFrame) DynamicProxy.newInstance(new CSVDataFrame("cities.csv"),observers);
             System.out.println("Testing operations At and Iat to be logged properly and intercepted too");
-            df.at(7,"LonD");
-            df.iat(0,4);
+            System.out.println(df.at(7,"LonD"));
+            System.out.println(df.at(7,"NS") + "Should not be logged"); // This should not be logged
+            System.out.println(df.iat(0,4));
             System.out.println("End of the test demonstration, bye!");
 
         } catch (IOException | ParseException | NoSuchFieldException | IllegalAccessException | CsvException e) {

@@ -4,7 +4,6 @@
         and even directories of subdirectories.
     Gabriel Garcia
 /----------------------------------------------------*/
-
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -29,8 +28,8 @@ public class Directory extends DataFrame implements IDataFrame {
     /*Removes a dataframe from the directory*/
     public void removeChild(DataFrame child) {
         children.remove(child);
-        super.columns = super.columns + child.columns;
-        super.rows = super.rows + child.rows;
+        super.columns = super.columns - child.columns;
+        super.rows = super.rows - child.rows;
     }
 
     /*Returns the size of the full directory*/
@@ -56,7 +55,7 @@ public class Directory extends DataFrame implements IDataFrame {
 
             @Override
             public List<String> next() {
-                if (!(childIterator.hasNext())) { // if we are at the end of the dataframe
+                if (!(childIterator.hasNext())) { // if we are at the end of the current dataframe of the dir
                     i++;
                     childIterator = children.get(i).iterator(); // we jump to the next dataframe of the directory
                     return childIterator.next();
@@ -68,26 +67,26 @@ public class Directory extends DataFrame implements IDataFrame {
 
     /*Returns all the values corresponding to the row and the label of all dataframes in the directory*/
     public String at(int row, String label) {
-        int i = 0;
         StringBuilder dirAt = new StringBuilder();
         for(DataFrame child : children) {
             if(child.at(row,label)!=null) {
-                dirAt.append(child.at(row, label)).append("->Df").append(i).append(";");
+                dirAt.append(child.at(row, label));
+                if(child instanceof Directory) dirAt.append("->Directory;");
+                else dirAt.append("->Df;");
             }
-            i++;
         }
         return dirAt.toString();
     }
 
     /*Returns all the values corresponding to the numeric values of row and label of all dataframes in the directory*/
     public String iat(int row, int label) {
-        int i = 0;
         StringBuilder dirIat = new StringBuilder();
         for(DataFrame child : children) {
             if(child.iat(row,label)!=null) {
-                dirIat.append(child.iat(row, label)).append("->Df").append(i).append(";");
+                dirIat.append(child.iat(row, label));
+                if(child instanceof Directory) dirIat.append("->Directory;");
+                else dirIat.append("->Df;");
             }
-            i++;
         }
         return dirIat.toString();
     }
@@ -111,7 +110,8 @@ public class Directory extends DataFrame implements IDataFrame {
         List<String> sortedDirList = new ArrayList<>(); // full final list
         int i=1;
         for(DataFrame child : children) { // we will sort all the content of the directory
-            sortedDirList.add("DataFrame"+i);  // add an indicator for recognising whose dataframe's column is each sort
+            if(child instanceof Directory) sortedDirList.add("Directory;");
+            else sortedDirList.add("Df;");
             if(child.sort(label,comparator)!=null) {
                 sortedDirList = Stream.of(sortedDirList, child.sort(label, comparator)) // we start merging the sorted list and the full final list opening a stream
                         .flatMap(Collection::stream)    // we use a flatmap because we are merging two lists

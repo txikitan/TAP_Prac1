@@ -29,7 +29,8 @@ public class DynamicProxy implements InvocationHandler {
         this.observers = observers;
     }
 
-
+    /*NOTE: We will not be able to attach any observer directly into the proxy because we are not going to instantiate
+     * the proxy by itself*/
     public Object invoke(Object proxy, Method method, Object[] args) {
         Object invocationResult = null;
         try
@@ -47,17 +48,16 @@ public class DynamicProxy implements InvocationHandler {
             System.err.println("Invocation of " + method.getName() + " failed");
         }
         finally{
-            notifyAllObservers(method.getName());
+            notifyAllObservers(method.getName(),args);
             return invocationResult;
         }
     }
 
 
-    /*Observer Methods */
-
-    public void notifyAllObservers(String methodName){
+    /*Observer Method */
+    public void notifyAllObservers(String methodName, Object[]args){
         for (Observer observer : observers) {
-            observer.update(methodName);
+            observer.update(methodName, args);
         }
     }
 

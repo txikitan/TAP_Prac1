@@ -16,7 +16,7 @@ public class AverageVisitor implements DataFrameVisitor{
             if(!(value.matches("^[ A-Za-z]+$"))) sum = sum + Integer.parseInt(value);
         }
         dfCounter++;
-        long average = (long) sum / (long) listToAverage.size(); // Just applying the classic average formula
+        float average = (float) sum / (float) listToAverage.size(); // Just applying the classic average formula
         System.out.println("Average value (label="+label+") of numeric values in this Df"+dfCounter+" = " + average + ";");
     }
 }

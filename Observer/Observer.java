@@ -7,5 +7,5 @@
     Gabriel Garcia
 /----------------------------------------------------*/
 public abstract class Observer {
-    public abstract void update(String methodName);
+    public abstract void update(String methodName, Object[] args);
 }

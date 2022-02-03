@@ -1,5 +1,3 @@
-import java.util.logging.Logger;
-
 /*---------------------------------------------------
 - TAP JavaDataFrame: Class that implements
     the definition of the main Observer method to
@@ -8,10 +6,13 @@ import java.util.logging.Logger;
 
     Gabriel Garcia
 /----------------------------------------------------*/
+import java.util.logging.Logger;
+
+
 public class LogObserver extends Observer{
 
     @Override
-    public void update(String methodName) {
+    public void update(String methodName,Object[] args) {
         Logger logger
                 = Logger.getLogger(
                 DataFrame.class.getName());
