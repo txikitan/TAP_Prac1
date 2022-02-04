@@ -1,8 +1,8 @@
-/*---------------------------------------------------
+/**---------------------------------------------------
 - TAP JavaDataFrame: Child class of abstract DataFrame
         class to create the dataframe from a csv file
 
-    Gabriel Garcia
+    @author Gabriel Garcia
 /----------------------------------------------------*/
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
@@ -14,6 +14,13 @@ import java.util.List;
 public class CSVDataFrame extends DataFrame implements IDataFrame{
 
     /*Reads a csv file and converts it into a DataFrame*/
+
+    /**
+     * Constructor of the dataFrame to import CSV based dataframes
+     * @param file name of the file to import
+     * @throws IOException  exception during the file read
+     * @throws CsvException exception during the parse of the csv
+     */
     public CSVDataFrame(String file) throws IOException, CsvException {
         CSVReader reader = new CSVReader(new FileReader(file));
         List<String[]> r = reader.readAll();    // captures all rows in the csv and stores in r

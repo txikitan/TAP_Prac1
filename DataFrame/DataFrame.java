@@ -1,8 +1,8 @@
-/*---------------------------------------------------
+/**---------------------------------------------------
 - TAP JavaDataFrame: Abstract class that provides
     a simple api to access the data in the DataFrame
 
-    Gabriel Garcia
+    @author Gabriel Garcia
 /----------------------------------------------------*/
 
 import java.util.*;
@@ -17,7 +17,7 @@ public abstract class DataFrame implements Iterable<List<String>>, IDataFrame {
     /*The DataFrame will be stored in a LinkedHashMap with the label and all the column values stored in a list<string> */
     protected LinkedHashMap<String, List<String>> df = new LinkedHashMap<>();
 
-    /*Making the dataframe iterable through columns*/
+    /**Makes  the dataframe iterable through columns*/
     public Iterator<List<String>> iterator() {
         return new Iterator<List<String>>() {
             Iterator<String> it = df.keySet().iterator();
@@ -34,7 +34,12 @@ public abstract class DataFrame implements Iterable<List<String>>, IDataFrame {
         };
     }
 
-    /*Returns a specific item by text key*/
+    /**
+     * Returns a specific item by text key
+     * @param row numeric coordinate of the row
+     * @param label textual label identifier
+     * @return specific value
+     */
     public String at(int row, String label) {
         if(this.df.get(label)!=null && row<this.rows && row>=0) {
             return this.df.get(label).get(row);
@@ -42,7 +47,12 @@ public abstract class DataFrame implements Iterable<List<String>>, IDataFrame {
         else return null;
     }
 
-    /*Returns a specific item by number indexes*/
+    /**
+     * Returns a specific item by number indexes
+     * @param row numeric row coordinate
+     * @param col numeric column coordinate (label)
+     * @return specific value
+     */
     public String iat(int row, int col) {
         if(col<this.columns && col>=0 && row<this.rows && row>=0) {
             Set<String> keys = this.df.keySet();
@@ -53,17 +63,28 @@ public abstract class DataFrame implements Iterable<List<String>>, IDataFrame {
         return null;
     }
 
-    /*Returns number of columns*/
+    /**
+     * Returns number of columns
+     * @return number of columns in the dataframes
+     */
     public int columns() {
         return this.columns;
     }
 
-    /*Returns number of rows*/
+    /**
+     * Returns number of rows
+     * @return number of rows in the dataframes
+     */
     public int size() {
         return this.rows;
     }
 
-    /*Sorts a list based in a comparator*/
+    /**
+     * Sorts a list based in a comparator
+     * @param label label of the columns to be sorted
+     * @param comparator comparator to apply during the sorting process
+     * @return sorted list with the values of the label ordered
+     */
     public List<String> sort(String label, Comparator<String> comparator) {
         if(this.df.get(label)!=null) {
             List<String> sortedList = this.df.get(label);
@@ -73,7 +94,12 @@ public abstract class DataFrame implements Iterable<List<String>>, IDataFrame {
         else return null;
     }
 
-    /*Queries all values of the desired col that comply the predicate*/
+    /**
+     * Queries all values of the desired col that comply the predicate
+     * @param label label of the columns to be queried
+     * @param predicate predicate to apply during the filter of the query
+     * @return the initial dataframe with the desired columns already queried
+     */
     public LinkedHashMap<String, List<String>> query( String label, Predicate<String> predicate) {
         return df.entrySet().stream().collect  // this first stream is for the dataframe itself (each entry)
                 (Collectors.toMap(Map.Entry::getKey, key->{
@@ -86,6 +112,11 @@ public abstract class DataFrame implements Iterable<List<String>>, IDataFrame {
                         ,LinkedHashMap<String,List<String>>::new)); // we want it as a linkedHashMap to preserve the order
     }
 
+    /**
+     * Main visitor functionality method that accepts a visitor whose will be execute visit operation over the current dataframe
+     * @param v instance of a dataframe visitor
+     * @param label label of the column to be visited
+     */
     public void accept(DataFrameVisitor v, String label) {
         v.visit(this, label);
     }

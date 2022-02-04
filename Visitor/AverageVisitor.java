@@ -1,14 +1,19 @@
-/*---------------------------------------------------
+/**---------------------------------------------------
 - TAP JavaDataFrame: Visitor interface that implements
     the visitor pattern to do perform the average of the
     values under a determinate label in a DataFrame
-    Gabriel Garcia
+    @author Gabriel Garcia
 /----------------------------------------------------*/
 import java.util.List;
 
 public class AverageVisitor implements DataFrameVisitor{
     private int dfCounter = 0;
 
+    /**
+     * Visit method to perform the average of the values under the label in the dataframe
+     * @param dataFrame Dataframe to visit
+     * @param label label to calculate average
+     */
     public void visit(DataFrame dataFrame, String label) {
         List<String> listToAverage = dataFrame.df.get(label);
         int sum = 0;

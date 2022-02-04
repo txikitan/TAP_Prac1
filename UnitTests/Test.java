@@ -1,7 +1,7 @@
-/*---------------------------------------------------
+/**---------------------------------------------------
 - TAP JavaDataFrame: JUnit test class that provides
     different testing method for each pattern applied
-    Gabriel Garcia
+    @author Gabriel Garcia
 /----------------------------------------------------*/
 
 import com.opencsv.exceptions.CsvException;

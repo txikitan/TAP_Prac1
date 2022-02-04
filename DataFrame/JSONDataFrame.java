@@ -1,8 +1,8 @@
-/*---------------------------------------------------
+/**---------------------------------------------------
 - TAP JavaDataFrame: Child class of abstract DataFrame
         class to create the dataframe from a json file
 
-    Gabriel Garcia
+    @author Gabriel Garcia
 /----------------------------------------------------*/
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,6 +17,13 @@ import java.util.Set;
 public class JSONDataFrame extends DataFrame implements IDataFrame{
 
     /*Reads a json file and converts it into a DataFrame*/
+
+    /**
+     * Constructor of the dataFrame to import JSON based dataframes
+     * @param filename name of the file to import
+     * @throws IOException exception during the file read
+     * @throws ParseException exception during the parsing of the json file
+     */
     @SuppressWarnings("unchecked")
     public JSONDataFrame(String filename) throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();

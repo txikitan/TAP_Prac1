@@ -1,4 +1,4 @@
-/*---------------------------------------------------
+/**---------------------------------------------------
 - TAP JavaDataFrame: Child class of abstract DataFrame
         class to create the dataframe from a txt file
 
@@ -15,6 +15,12 @@ import java.util.List;
 public class TXTDataFrame extends DataFrame implements IDataFrame {
 
     /*Reads a txt file and converts it into a DataFrame*/
+
+    /**
+     * Constructor of the dataFrame to import TXT based dataframes
+     * @param filename name of the file to import
+     * @throws IOException exception during the file read
+     */
     public TXTDataFrame(String filename) throws IOException {
         Path path = Paths.get(filename);
         List<String> fullFile = Files.readAllLines(path); // read full file split by lines

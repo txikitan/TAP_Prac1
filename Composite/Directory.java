@@ -1,8 +1,8 @@
-/*---------------------------------------------------
+/**---------------------------------------------------
 - TAP JavaDataFrame: Directory class that applies the
         composite pattern to have directories of dataframes,
         and even directories of subdirectories.
-    Gabriel Garcia
+    @author Gabriel Garcia
 /----------------------------------------------------*/
 import java.util.*;
 import java.util.function.Predicate;
@@ -13,37 +13,49 @@ public class Directory extends DataFrame implements IDataFrame {
     private String name;    // name of the dataframe
     private List<DataFrame> children;
 
-    /*Constructor*/
+    /**
+     * Constructor method that generates an empty directory
+     * @param name name of the directory
+     */
     public Directory(String name) {
         this.name = name;
         children = new LinkedList<>();
     }
+
+    /**
+     * Adds a Dataframe to the directory (or a subdirectory)
+     * @param child Dataframe to add to the directory
+     */
     /*Adds a dataframe to the directory*/
     public void addChild(DataFrame child) {
         children.add(child);
-        super.columns = super.columns + child.columns;
+        super.columns = super.columns + child.columns; // update columns and rows counters of the directory
         super.rows = super.rows + child.rows;
     }
 
-    /*Removes a dataframe from the directory*/
+    /**
+     * Removes a Dataframe to the directory (or a subdirectory)
+     * @param child Dataframe to remove to the directory
+     */
     public void removeChild(DataFrame child) {
         children.remove(child);
         super.columns = super.columns - child.columns;
         super.rows = super.rows - child.rows;
     }
 
-    /*Returns the size of the full directory*/
+    /**
+     * Returns the size of the full directory
+     * @return size of the directory(rows) all df included
+     */
     public int size(){
-        int result = 0;
-        for(DataFrame child : children) {
-            result = result + child.size();
-        }
-        return result;
+        return super.rows;
     }
 
     /*The Directory has to perform the same operations over its inner dataFrames*/
     @Override
-    /*Iterator that will iterate over each inner dataframe of the directory through columns following the same idea of the simple Df iterator*/
+    /**
+     * Iterator that will iterate over each inner dataframe of the directory through columns following the same idea of the simple Df iterator
+     * */
     public Iterator<List<String>> iterator() {
         return new Iterator<List<String>>() {
             int i = 0;
@@ -66,6 +78,13 @@ public class Directory extends DataFrame implements IDataFrame {
     }
 
     /*Returns all the values corresponding to the row and the label of all dataframes in the directory*/
+
+    /**
+     * Returns all the values corresponding to the row and the label of all dataframes in the directory
+     * @param row numeric coordinate of the row
+     * @param label textual label identifier
+     * @return String with all the values found over the dataframes
+     */
     public String at(int row, String label) {
         StringBuilder dirAt = new StringBuilder();
         for(DataFrame child : children) {
@@ -78,7 +97,12 @@ public class Directory extends DataFrame implements IDataFrame {
         return dirAt.toString();
     }
 
-    /*Returns all the values corresponding to the numeric values of row and label of all dataframes in the directory*/
+    /**
+     * Returns all the values corresponding to the numeric values of row and label of all dataframes in the directory
+     * @param row numeric row coordinate
+     * @param label numeric label coordinate
+     * @return String with all the values found over the dataframes
+     */
     public String iat(int row, int label) {
         StringBuilder dirIat = new StringBuilder();
         for(DataFrame child : children) {
@@ -91,21 +115,20 @@ public class Directory extends DataFrame implements IDataFrame {
         return dirIat.toString();
     }
 
-    /*Returns the sum of all the columns of all the dataframes of the directory*/
+    /**
+     *  Number of labels in the directory
+     * @return sum of all the columns of all the dataframes of the directory
+     */
     public int columns(){
-        int result = 0;
-        for(DataFrame child : children) {
-            result = result + child.columns();
-        }
-        return result;
+        return super.columns;
     }
 
-    /*Returns the name of the dataframe*/
-    public String getName() {
-        return name;
-    }
-
-    /*Returns a merged list with all the sorted columns of all the dataframes in the directory*/
+    /**
+     * Sorts all the components of the directory one by one
+     * @param label label of the columns to be sorted
+     * @param comparator comparator to apply during the sorting process
+     * @return merged list with all the sorted columns of all the dataframes in the directory
+     */
     public List<String> sort(String label, Comparator<String> comparator) {
         List<String> sortedDirList = new ArrayList<>(); // full final list
         for(DataFrame child : children) { // we will sort all the content of the directory
@@ -120,7 +143,14 @@ public class Directory extends DataFrame implements IDataFrame {
         return sortedDirList;
     }
 
-    /* Returns a merged hash map with the queries columns filtered */
+
+    /**
+     * Queries all values of the desired col that comply the predicate in the directory and merges all resultant hashmaps
+     * into a final full hashmap
+     * @param label label of the columns to be queried
+     * @param predicate predicate to apply during the filter of the query
+     * @return full merged hash map with the queries columns filtered of the entire directory
+     */
     public LinkedHashMap<String,List<String>> query(String label, Predicate<String> predicate) {
         LinkedHashMap <String,List<String>> queryDirMap = new LinkedHashMap<>(); // final merged map
         for(DataFrame child : children) {   // we will query all the dataframes of the directory
@@ -136,11 +166,15 @@ public class Directory extends DataFrame implements IDataFrame {
     }
 
     /*Visitor pattern accept method that executes accept over each dataframe of the directory*/
+    /**
+     * Main visitor method that calls the accept method over each dataframe in the directory, the method accept
+     * will cal the visit method of the visitor pattern (view accept method of abstract class DataFrame)
+     * @param v instance of a dataframe visitor
+     * @param label label of the column to be visited
+     */
     public void accept(DataFrameVisitor v, String label){
         for (DataFrame child : children ) {
             child.accept(v,label);
         }
     }
-
-
 }

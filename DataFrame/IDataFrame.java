@@ -1,10 +1,10 @@
-/*---------------------------------------------------
+/**---------------------------------------------------
 - TAP JavaDataFrame: Interface that all dataframe types
         will implement to be able to cast when using the
         dynamic proxy pattern
 
-    Gabriel Garcia
-/----------------------------------------------------*/
+    @author Gabriel Garcia
+/----------------------------------------------------**/
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;

@@ -1,6 +1,6 @@
-/*---------------------------------------------------
+/**---------------------------------------------------
 - TAP JavaDataFrame: Main class to show the features
-    Gabriel Garcia
+    @author Gabriel Garcia
 /----------------------------------------------------*/
 
 import com.opencsv.exceptions.CsvException;
@@ -118,7 +118,9 @@ public class Main {
         }
     }
 
-    /*Comparators used for sorting methods*/
+    /**
+     * Static class that implements a simple comparator to test the features
+     */
     static class testComparator implements Comparator<String> {
         public int compare(String a, String b) {
             return Integer.compare(Integer.parseInt(a), Integer.parseInt(b));
